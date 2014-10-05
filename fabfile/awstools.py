@@ -21,11 +21,7 @@ def install_pip():
 
 def install_s3cmd():
   run("pip install python-dateutil")
-  run("wget http://sourceforge.net/projects/s3tools/files/s3cmd/1.5.0-rc1/s3cmd-1.5.0-rc1.tar.gz/download -O s3cmd-1.5.0-rc1.tar.gz")
-  run("tar zxfv s3cmd-1.5.0-rc1.tar.gz")
-  with cd("s3cmd-1.5.0-rc1"):
-    run("python setup.py install")
-  run("rm -rf s3cmd-1.5.0-rc1")
+  run("pip install http://sourceforge.net/projects/s3tools/files/s3cmd/1.5.0-rc1/s3cmd-1.5.0-rc1.tar.gz/download")
 
 def install_awscli():
   run("pip install awscli")
