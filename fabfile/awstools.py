@@ -3,15 +3,17 @@ from fabric.context_managers import settings
 
 def setup():
   with settings(user='root'):
-    setup_environment()
+    install_pip()
     install_s3cmd()
     install_awscli()
 
-def setup_environment():
-  run("wget http://peak.telecommunity.com/dist/ez_setup.py -O ez_setup.py")
-  run("python ez_setup.py")
-  run("easy_install setuptools")
-  run("wget https://pypi.python.org/packages/source/p/pip/pip-1.5.6.tar.gz#md5=01026f87978932060cc86c1dc527903e --no-check-certificate -O pip-1.5.6.tar.gz")
+def install_pip():
+  run("wget https://pypi.python.org/packages/source/s/setuptools/setuptools-6.0.2.tar.gz --no-check-certificate -O setuptools-6.0.2.tar.gz")
+  run("tar zxfv setuptools-6.0.2.tar.gz")
+  with cd("setuptools-6.0.2"):
+    run("python setup.py install")
+  run("rm -rf setuptools-6.0.2")
+  run("wget https://pypi.python.org/packages/source/p/pip/pip-1.5.6.tar.gz --no-check-certificate -O pip-1.5.6.tar.gz")
   run("tar zxfv pip-1.5.6.tar.gz")
   with cd("pip-1.5.6"):
     run("python setup.py install")
