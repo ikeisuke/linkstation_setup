@@ -7,7 +7,6 @@ from fabric.network import needs_host
 import fabric.state
 
 jar_path = os.getcwd() + '/tmp/acp_commander.jar'
-env.ls_admin_password = None
 
 def download_jar():
   if not os.path.exists(jar_path):
@@ -16,8 +15,6 @@ def download_jar():
 
 @needs_host
 def setup():
-  env.ls_admin_password = env.ls_admin_password or getpass.getpass(prompt='Input linkstation admin password:') 
-  env.password  = env.password or getpass.getpass(prompt='Input linkstation new root password:')
   acp_run("sed -i 's/UsePAM yes/UsePAM no/g' /etc/sshd_config")
   acp_run("sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/sshd_config")
   acp_run("(echo %s; echo %s)| passwd" % (env.password, env.password))
@@ -27,6 +24,6 @@ def setup():
 @needs_host
 def acp_run(command):
   download_jar()
-  env.ls_admin_password = env.ls_admin_password or getpass.getpass(prompt='Input linkstation admin password:')
-  acp_command = 'java -jar %s -t %s -ip %s -pw %s -c "%%s"' % (jar_path, env.host, env.host, env.ls_admin_password)
+  env.password  = env.password or getpass.getpass(prompt='Input linkstation admin password:')
+  acp_command = 'java -jar %s -q -t %s -pw %s -c "%%s"' % (jar_path, env.host, env.password)
   local(acp_command % command)
