@@ -25,5 +25,5 @@ def setup():
 def acp_run(command):
   download_jar()
   env.password  = env.password or getpass.getpass(prompt='Input linkstation admin password:')
-  acp_command = 'java -jar %s -q -t %s -pw %s -c "%%s"' % (jar_path, env.host, env.password)
+  acp_command = 'java -jar %s -q -t %s -ip %s -pw %s -c "%%s"' % (jar_path, env.host, env.host, env.password)
   local(acp_command % command)
